@@ -1,7 +1,9 @@
 package com.dibimbing.dibimbing.service.impl;
 
 import com.dibimbing.dibimbing.model.Barang;
+import com.dibimbing.dibimbing.model.Supplier;
 import com.dibimbing.dibimbing.repository.BarangRepository;
+import com.dibimbing.dibimbing.repository.SupplierRepository;
 import com.dibimbing.dibimbing.service.BarangService;
 import com.dibimbing.dibimbing.utils.TemplateResponse;
 import org.slf4j.Logger;
@@ -23,6 +25,9 @@ public class BarangImpl implements BarangService {
 
     @Autowired
     public BarangRepository barangRepository;
+
+    @Autowired
+    public SupplierRepository supplierRepository;
 
     public static final Logger log = LoggerFactory.getLogger(BarangImpl.class);
 
@@ -105,5 +110,106 @@ public class BarangImpl implements BarangService {
         } catch (Exception e) {
             return templateResponse.templateEror(e);
         }
+    }
+
+    @Override
+    public Map findByNama(String nama, Integer page, Integer size) {
+        try {
+           /*
+           1. buat query dulu where nama barang
+            */
+            Pageable show_data = PageRequest.of(page, size);
+            Page<Barang> list = barangRepository.findByNama(nama, show_data);
+            return templateResponse.templateSukses(list);
+        } catch (Exception e) {
+
+            log.error("eror disini findByNama : " + e);
+            //menampilkan responose
+            return templateResponse.templateEror(e);
+        }
+    }
+
+
+    @Override
+    public Page<Barang> findByNamaLike(String nama, Pageable pageable) {
+        try {
+           /*
+           1. buat query dulu where nama barang = like
+            */
+            //tidak pake kutip
+            //perhatikan tolowercasenya
+            Page<Barang> list = barangRepository.findByNamaLike("%" + nama + "%", pageable);
+//             public Page<Barang> findByNamaLike(String nama , Pageable pageable);
+            return list;
+        } catch (Exception e) {
+            // manampilkan di terminal saja
+            log.error("ada eror di method findByNamaLike:" + e);
+            return null;
+        }
+    }
+
+    @Override
+    public Map insert(Barang obj, Long idsupplier) {
+        try {
+            if (templateResponse.chekNull(obj.getNama())) {
+                return templateResponse.templateEror("Nama is Requiered");
+            }
+
+            if (templateResponse.chekNull(obj.getHarga())) {
+                return templateResponse.templateEror("Harga is requiered");
+            }
+
+            if (templateResponse.chekNull(idsupplier)) {
+                return templateResponse.templateEror("Id Supplier is requiered");
+            }
+            Supplier chekId = supplierRepository.getbyID(idsupplier);
+            if (templateResponse.chekNull(chekId)) {
+                return templateResponse.templateEror("Id Supplier NOt found");
+            }
+            //do save
+            obj.setSupplier(chekId);
+            Barang barangSave = barangRepository.save(obj);
+            return templateResponse.templateSukses(barangSave);
+        } catch (Exception e) {
+            return templateResponse.templateEror(e);
+        }
+    }
+
+    @Override
+    public Map update(Barang barangReq, Long idsupplier) {
+        try {
+/*
+1. chek id supplirt - takutnya suppliar tidak ada
+2. chek id barang - apakah ada atau tidak di db
+3. simpan ke database
+ */
+            if (templateResponse.chekNull(idsupplier)) {
+                return templateResponse.templateEror("Id Supplier is requiered");
+            }
+//            1. che id supplirt - =takutnyanya suppliar
+            Supplier chekId = supplierRepository.getbyID(idsupplier);
+            if (templateResponse.chekNull(chekId)) {
+                return templateResponse.templateEror("Id Supplier N0t found");
+            }
+            if (templateResponse.chekNull(barangReq.getId())) {
+                return templateResponse.templateEror("Id Barang is required");
+            }
+//            2. chek id barang - apakah ada atau ga
+            Barang chekIdBarang = barangRepository.getbyID(barangReq.getId());
+            if (templateResponse.chekNull(chekIdBarang)) {
+                return templateResponse.templateEror("Id Barang Not found");
+            }
+//            3. simpan database : update
+            chekIdBarang.setNama(barangReq.getNama());
+            chekIdBarang.setHarga(barangReq.getHarga());
+            chekIdBarang.setStok(barangReq.getStok());
+            chekIdBarang.setSatuan(barangReq.getSatuan());
+            Barang dosave = barangRepository.save(chekIdBarang);
+
+            return templateResponse.templateSukses(dosave);
+        } catch (Exception e) {
+            return templateResponse.templateEror(e);
+        }
+
     }
 }

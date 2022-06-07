@@ -14,10 +14,11 @@ import java.io.Serializable;
 @Table(name = "barang")
 @Where(clause = "deleted_date is null")
 public class Barang  extends  AbstractDate implements Serializable {
-
+    //GenerationType.AUTO : nextvall all tabel sequense
+    // GenerationType.IDENTITY : nextvall per tabel sequense
     @Id
     @Column(name="id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "nama", nullable = false, length = 45)
@@ -31,5 +32,9 @@ public class Barang  extends  AbstractDate implements Serializable {
 
     @Column(name = "harga", nullable = false, length = 11)
     private Double harga;
+
+    // wajib
+    @ManyToOne(targetEntity = Supplier.class, cascade = CascadeType.ALL)
+    private Supplier supplier;//ok supplier_id
 }
 
