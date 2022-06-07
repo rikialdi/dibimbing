@@ -2,6 +2,8 @@ package com.dibimbing.dibimbing;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 @SpringBootApplication
 public class DibimbingApplication {
@@ -11,3 +13,16 @@ public class DibimbingApplication {
 	}
 
 }
+
+//@SpringBootApplication
+//public class DibimbingApplication extends SpringBootServletInitializer {
+//
+//	public static void main(String[] args) {
+//		SpringApplication.run(DibimbingApplication.class, args);
+//	}
+//
+//	@Override
+//	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+//		return builder.sources(DibimbingApplication.class);
+//	}
+//}
