@@ -1,8 +1,9 @@
 package com.dibimbing.dibimbing.model;
-
-import lombok.Data;
+ 
 
 import org.hibernate.annotations.Where;
+
+import lombok.Data;
 
 import javax.persistence.Entity;
 import javax.persistence.*;
