@@ -19,12 +19,9 @@ import java.util.Map;
 @RestController
 @RequestMapping("/v1/barang")
 public class BarangController {
-
     @Autowired
     public BarangService barangService;
-
     Config config = new Config();
-
     @Autowired
     public BarangRepository barangRepository;
 

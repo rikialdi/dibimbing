@@ -19,14 +19,10 @@ import java.util.Map;
 
 @Service
 public class BarangImpl implements BarangService {
-
-
     @Autowired
     public BarangRepository barangRepository;
 
     public static final Logger log = LoggerFactory.getLogger(BarangImpl.class);
-
-
     @Autowired
     public TemplateResponse templateResponse;
 
@@ -58,7 +54,6 @@ public class BarangImpl implements BarangService {
             return templateResponse.templateEror(e);
         }
     }
-
 
     @Override
     public Map update(Barang barangReq) {
