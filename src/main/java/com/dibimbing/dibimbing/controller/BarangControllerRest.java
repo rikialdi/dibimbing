@@ -18,7 +18,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/v1/barang")
-public class BarangController {
+public class BarangControllerRest {
 
     @Autowired
     public BarangService barangService;

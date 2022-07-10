@@ -7,7 +7,6 @@ import com.dibimbing.dibimbing.service.BarangService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
-import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +16,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/v1/view/barang")
-public class RestTemplateMVCController {
+public class BarangControllerMVC {
 
     @Autowired
     public BarangRepository repoBarang;
