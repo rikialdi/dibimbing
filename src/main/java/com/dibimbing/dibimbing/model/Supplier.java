@@ -2,9 +2,11 @@ package com.dibimbing.dibimbing.model
         ;
 
 import lombok.Data;
+import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 @Entity
@@ -25,6 +27,10 @@ public class Supplier implements Serializable {
 
     @Column(name = "alamat", columnDefinition = "TEXT")
     private String alamat;
+
+    @JsonIgnore
+    @OneToMany(targetEntity=Barang.class)
+    private List<Barang> barang;
 
 }
 
