@@ -84,5 +84,18 @@ public class BarangJunitRestTemplate {
         System.out.println("response  =" + exchange.getBody());
     }
 
+    @Test
+    public void list() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Accept", "*/*");
+        headers.set("Content-Type", "application/json");
+
+
+        ResponseEntity<String> exchange = restTemplate.exchange("http://localhost:9090/api/v1/barang/list?page=0&size=10", HttpMethod.GET, null, String.class);
+        System.out.println("response  =" + exchange.getBody());
+        assertEquals(HttpStatus.OK, exchange.getStatusCode());
+
+    }
+
 
     }
